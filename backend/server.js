@@ -4,7 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import { initDB } from './src/core/db.js';
-import { errorHandler, notFound } from './src/core/middleware.js';
+import { errorHandler, notFound, authMiddleware } from './src/core/middleware.js';
 
 import authRoutes from './src/routes/authRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
@@ -21,13 +21,11 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoutes);
 
 // Protected routes: everything else requires login
-import { authMiddleware } from './src/core/middleware.js';
 app.use(authMiddleware);
-
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 
-// Health check (optional, could also be protected)
+// Health check
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -42,14 +40,18 @@ app.use(notFound);
 // Central error handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 4000;
-
-try {
-  await initDB();
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
-  });
-} catch (err) {
-  console.error('❌ Failed to initialize DB connection', err);
-  process.exit(1);
+// Async function to initialize DB and start server
+async function startServer() {
+  const PORT = process.env.PORT || 4000;
+  try {
+    await initDB();
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running at http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error('❌ Failed to initialize DB connection', err);
+    process.exit(1);
+  }
 }
+
+startServer();
