@@ -1,3 +1,4 @@
+// src/controllers/itemController.js
 import { Item } from '../models/itemModel.js';
 
 // Create a new lost/found item
@@ -9,7 +10,6 @@ export async function createItem(req, res, next) {
       return res.status(400).json({ message: 'Name and status are required' });
     }
 
-    // user_id comes from JWT auth middleware
     const newItem = await Item.create({
       user_id: req.user.id,
       name,
@@ -24,22 +24,31 @@ export async function createItem(req, res, next) {
   }
 }
 
-// Get all items (optional search by name)
+// Get all items (search, filter, pagination, sorting)
 export async function getItems(req, res, next) {
   try {
-    const { name } = req.query;
-    const items = await Item.getAll({ name });
+    const { name, status, limit, offset, sort } = req.query;
+
+    const items = await Item.getAll({
+      name,
+      status,
+      limit,
+      offset,
+      sort: sort === 'ASC' ? 'ASC' : 'DESC' // default DESC
+    });
+
     res.json(items);
   } catch (err) {
     next(err);
   }
 }
 
-// Get a single item by ID (optional)
+// Get single item by ID
 export async function getItemById(req, res, next) {
   try {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: 'Item not found' });
+
     res.json(item);
   } catch (err) {
     next(err);

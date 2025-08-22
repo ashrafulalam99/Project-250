@@ -1,9 +1,9 @@
+// src/models/itemModel.js
 import { pool } from '../core/db.js';
 
 export class Item {
-  // Create a new item
+  // Create a new lost/found item
   static async create({ user_id, name, description, image_url = null, status }) {
-    // Validate required fields
     if (!name || !description || !status) {
       throw new Error('Name, description, and status are required');
     }
@@ -17,23 +17,36 @@ export class Item {
     return { id: result.insertId, user_id, name, description, image_url, status };
   }
 
-  // Get all items (optionally filter by name)
-  static async getAll({ name }) {
+  // Get all items (optional search, filter, pagination, sorting)
+  static async getAll({ name, status, limit = 20, offset = 0, sort = 'DESC' }) {
     let sql = `SELECT i.*, u.name AS user_name, u.email AS user_email
                FROM items i
                JOIN users u ON i.user_id = u.id`;
+    const conditions = [];
     const params = [];
 
     if (name) {
-      sql += ` WHERE i.name LIKE ?`;
+      conditions.push('i.name LIKE ?');
       params.push(`%${name}%`);
     }
+
+    if (status) {
+      conditions.push('i.status = ?');
+      params.push(status);
+    }
+
+    if (conditions.length > 0) {
+      sql += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    sql += ` ORDER BY i.created_at ${sort} LIMIT ? OFFSET ?`;
+    params.push(Number(limit), Number(offset));
 
     const [rows] = await pool.query(sql, params);
     return rows;
   }
 
-  // Find item by ID
+  // Find single item by ID
   static async findById(id) {
     const [rows] = await pool.query(
       `SELECT i.*, u.name AS user_name, u.email AS user_email
