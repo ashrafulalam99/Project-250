@@ -4,18 +4,18 @@ import bcrypt from 'bcrypt';
 
 export class User {
   // Create a new user (optional, used by authModel)
-  static async create({ name, email, password }) {
+  static async create({ name, email, password, contact, location }) {
     const [result] = await pool.query(
-      `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-      [name, email, password]
+      `INSERT INTO users (name, email, password, contact, location) VALUES (?, ?, ?, ?, ?)`,
+      [name, email, password, contact, location]
     );
-    return { id: result.insertId, name, email };
+    return { id: result.insertId, name, email, contact, location };
   }
 
   // Find user by ID (full info)
   static async findById(id) {
     const [rows] = await pool.query(
-      `SELECT id, name, email, created_at FROM users WHERE id = ? LIMIT 1`,
+      `SELECT id, name, email, contact, location, created_at FROM users WHERE id = ? LIMIT 1`,
       [id]
     );
     return rows[0];
@@ -24,7 +24,7 @@ export class User {
   // Find public user profile (limited info)
   static async findPublicById(id) {
     const [rows] = await pool.query(
-      `SELECT id, name, created_at FROM users WHERE id = ? LIMIT 1`,
+      `SELECT id, name, location, created_at FROM users WHERE id = ? LIMIT 1`,
       [id]
     );
     return rows[0];
@@ -40,7 +40,7 @@ export class User {
   }
 
   // Update user profile
-  static async updateUser(id, { name, email, password }) {
+  static async updateUser(id, { name, email, password, contact, location }) {
     const fields = [];
     const values = [];
 
@@ -51,6 +51,8 @@ export class User {
       fields.push('password = ?'); 
       values.push(hashedPassword);
     }
+    if (contact) { fields.push('contact = ?'); values.push(contact); }
+    if (location) { fields.push('location = ?'); values.push(location); }
 
     if (fields.length === 0) return null;
 

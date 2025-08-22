@@ -13,15 +13,15 @@ export class Auth {
   }
 
   // Create a new user with hashed password
-  static async createUser({ name, email, password }) {
+  static async createUser({ name, email, password, contact, location }) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const [result] = await pool.query(
-      `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-      [name, email, hashedPassword]
+      `INSERT INTO users (name, email, password, contact, location) VALUES (?, ?, ?, ?, ?)`,
+      [name, email, hashedPassword, contact, location]
     );
 
-    return { id: result.insertId, name, email };
+    return { id: result.insertId, name, email, contact, location };
   }
 
   // Verify user credentials for login

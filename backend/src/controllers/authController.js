@@ -4,26 +4,27 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 
+// Signup controller
 export async function signup(req, res, next) {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, contact, location } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Name, email, and password are required' });
+    if (!name || !email || !password || !contact || !location) {
+      return res.status(400).json({ message: 'All fields are required' });
     }
 
     const existingUser = await Auth.findByEmail(email);
-    if (existingUser) {
-      return res.status(409).json({ message: 'Email already registered' });
-    }
+    if (existingUser) return res.status(409).json({ message: 'Email already registered' });
 
-    const newUser = await Auth.createUser({ name, email, password });
+    const newUser = await Auth.createUser({ name, email, password, contact, location });
+
     res.status(201).json({ message: 'User created', user: newUser });
   } catch (err) {
     next(err);
   }
 }
 
+// Login controller
 export async function login(req, res, next) {
   try {
     const { email, password } = req.body;
