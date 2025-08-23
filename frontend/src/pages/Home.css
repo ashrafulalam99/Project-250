@@ -1,0 +1,68 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 100px;
+  min-height: calc(100vh - 120px); /* minus navbar + footer */
+  background-color: #C0ECEC;
+}
+
+.home-left {
+  max-width: 50%;
+}
+
+.home-left h2 {
+  font-size: 40px;
+  font-weight: bold;
+  color: #0C8EB6; /* gradient text can be added later if needed */
+  margin-bottom: 16px;
+}
+
+.home-left p {
+  font-size: 20px;
+  color: #2F5968;
+}
+
+.home-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lost-btn {
+  padding: 20px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #991313, #FF1F1F);
+  transition: transform 0.2s;
+}
+
+.lost-btn:hover {
+  transform: scale(1.05);
+}
+
+.found-btn {
+  padding: 20px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00CB14, #00650A);
+  transition: transform 0.2s;
+}
+
+.found-btn:hover {
+  transform: scale(1.05);
+}
