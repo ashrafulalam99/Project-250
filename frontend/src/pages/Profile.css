@@ -1,0 +1,135 @@
+/* Profile page container */
+.profile-page {
+  min-height: 100vh;
+  background: #f5f7fa; /* light grayish-blue background */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Profile card */
+.profile-card {
+  background: #bde191; /* white card */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px 40px;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Profile name */
+.profile-card h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: #000000;
+  text-align: center;
+}
+
+/* Profile details */
+.profile-card p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #4a4a4a;
+}
+
+/* Posts section */
+.profile-card h3 {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #404041;
+  font-size: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+.profile-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.profile-avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; /* makes it circular */
+  object-fit: cover;
+  border: 3px solid #3779c4; /* optional border */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Posts list */
+.posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.posts-list li {
+  background: #f0f4f8;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  color: #333;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.posts-list li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Post status */
+.posts-list li span.status {
+  font-weight: 600;
+  color: #0077ff;
+}
+
+/* Profile actions (buttons) */
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.profile-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Update button */
+.update-button {
+  background-color: #0077ff;
+  color: #fff;
+}
+
+.update-button:hover {
+  background-color: #005bbb;
+}
+
+/* Logout button */
+.logout-button {
+  background-color: #ff4d4f;
+  color: #fff;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+/* Loading text */
+.loading-text {
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  margin-top: 50px;
+}

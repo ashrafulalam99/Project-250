@@ -37,7 +37,7 @@ body, html {
 
 .lost-btn {
   padding: 20px 40px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   color: white;
   border: none;
@@ -53,7 +53,7 @@ body, html {
 
 .found-btn {
   padding: 20px 40px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   color: white;
   border: none;
