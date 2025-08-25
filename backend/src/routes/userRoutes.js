@@ -13,5 +13,5 @@ router.get('/me', getProfile);
 // update own profile
 router.put('/me', updateProfile);       
 // view public profile of another user
-router.get('/:id', getUserProfile);          
+router.get('/public/:id', getUserProfile);          
 export default router;

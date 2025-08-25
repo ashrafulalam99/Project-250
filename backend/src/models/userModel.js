@@ -24,7 +24,7 @@ export class User {
   // Find public user profile (limited info)
   static async findPublicById(id) {
     const [rows] = await pool.query(
-      `SELECT id, name, location, created_at FROM users WHERE id = ? LIMIT 1`,
+      `SELECT id, name, contact, location, created_at FROM users WHERE id = ? LIMIT 1`,
       [id]
     );
     return rows[0];
