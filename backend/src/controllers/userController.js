@@ -6,11 +6,14 @@ export async function getProfile(req, res, next) {
   try {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
-    res.json(user);
+
+    const items = await User.getItemsByUser(req.user.id);
+    res.json({ user, items }); // include items here
   } catch (err) {
     next(err);
   }
 }
+
 
 // Update own profile
 export async function updateProfile(req, res, next) {

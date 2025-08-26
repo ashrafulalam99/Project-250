@@ -10,13 +10,22 @@ export async function createItem(req, res, next) {
       return res.status(400).json({ message: 'Name and status are required' });
     }
 
+    function convertDriveLink(url) {
+        if (!url) return null;
+        const match = url.match(/\/d\/(.*?)\//);
+        if (match && match[1]) {
+        return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      }
+      return url;
+    }
+
     const newItem = await Item.create({
-      user_id: req.user.id,
-      name,
-      description,
-      image_url,
-      status
-    });
+    user_id: req.user.id,
+    name,
+    description,
+    image_url: convertDriveLink(image_url),
+    status
+  });
 
     res.status(201).json({ message: 'Item reported', item: newItem });
   } catch (err) {
