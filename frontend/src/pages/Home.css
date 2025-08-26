@@ -1,68 +1,151 @@
+/* Reset & base styles */
 body, html {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
+  background-color: #E8F6F6;
 }
 
+/* Container */
 .home-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 60px 100px;
   min-height: calc(100vh - 120px); /* minus navbar + footer */
-  background-color: #C0ECEC;
+  background: linear-gradient(135deg, #C0ECEC, #E8F6F6);
+  gap: 40px;
 }
 
+/* Left section */
 .home-left {
   max-width: 50%;
 }
 
 .home-left h2 {
-  font-size: 40px;
-  font-weight: bold;
-  color: #0C8EB6; /* gradient text can be added later if needed */
-  margin-bottom: 16px;
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 18px;
+  background: linear-gradient(90deg, #0C8EB6, #1CB5E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.highlight {
+  background: linear-gradient(90deg, #FF7A18, #AF002D 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .home-left p {
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   color: #2F5968;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
 }
 
+/* Right section */
 .home-right {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
+  align-items: center;
+}
+
+/* Buttons */
+.lost-btn, .found-btn {
+  padding: 25px 50px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  text-align: center;
+  min-width: 180px;
 }
 
 .lost-btn {
-  padding: 20px 40px;
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background: linear-gradient(90deg, #991313, #FF1F1F);
-  transition: transform 0.2s;
+  background: linear-gradient(135deg, #991313, #FF1F1F);
 }
 
 .lost-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255, 31, 31, 0.35);
 }
 
 .found-btn {
-  padding: 20px 40px;
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background: linear-gradient(90deg, #00CB14, #00650A);
-  transition: transform 0.2s;
+  background: linear-gradient(135deg, #00CB14, #00650A);
 }
 
 .found-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 203, 20, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .home-container {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 60px;
+    gap: 30px;
+  }
+  .home-left {
+    max-width: 100%;
+  }
+  .home-left h2 {
+    font-size: 42px;
+  }
+  .home-left p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-container {
+    padding: 40px 20px;
+    gap: 25px;
+  }
+  .home-left h2 {
+    font-size: 36px;
+  }
+  .home-left p {
+    font-size: 16px;
+  }
+  .home-right {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+  .lost-btn, .found-btn {
+    padding: 18px 32px;
+    font-size: 20px;
+    min-width: 140px;
+  }
+  .lost-btn:hover, .found-btn:hover {
+    transform: scale(1.08) translateY(-2px);
+  }
+}
+
+@media (max-width: 500px) {
+  .home-left h2 {
+    font-size: 28px;
+  }
+  .home-left p {
+    font-size: 14px;
+  }
+  .lost-btn, .found-btn {
+    padding: 14px 24px;
+    font-size: 18px;
+    min-width: 120px;
+  }
 }

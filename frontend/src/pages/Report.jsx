@@ -1,89 +1,114 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import api from '../axiosConfig';
+import { Navbar } from '../components/Navbar';
+import { Footer } from '../components/Footer';
 import './Report.css';
 
+const fallbackImage = '/Assets/images/image.png'; // local fallback image
+
 const Report = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    image_url: '',
-    status: 'lost', // default selection
-  });
-
-  const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [status, setStatus] = useState('lost');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // navigation hook
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage('');
+
     try {
-      await api.post('/items', formData);
-      alert('Item reported successfully!');
-      // Navigate to appropriate page based on status
-      navigate(formData.status === 'lost' ? '/lost' : '/found');
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setMessage('You must be logged in to report an item.');
+        setLoading(false);
+        return;
+      }
+
+      await axios.post(
+        '/api/items',
+        {
+          name,
+          description,
+          image_url: imageUrl || null,
+          status
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setMessage('Report submitted successfully!');
+      setName('');
+      setDescription('');
+      setImageUrl('');
+      setStatus('lost');
+
+      // Navigate to home after 1 second
+      setTimeout(() => navigate('/home'), 1000);
     } catch (err) {
       console.error(err);
-      setError('Failed to report item. Please try again.');
+      setMessage(err.response?.data?.message || 'Failed to submit report.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="report-page">
-      <h2>Report Lost / Found Item</h2>
-      <form className="report-form" onSubmit={handleSubmit}>
-        <label>
-          Item Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </label>
+    <div className="report-page-wrapper">
+      <Navbar />
+      <div className="report-page">
+        <h2>Report Lost/Found Item</h2>
+        <form className="report-form" onSubmit={handleSubmit}>
+          <label>
+            Name:
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </label>
 
-        <label>
-          Description:
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </label>
+          <label>
+            Description:
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </label>
 
-        <label>
-          Image URL:
-          <input
-            type="url"
-            name="image_url"
-            value={formData.image_url}
-            onChange={handleChange}
-            required
-          />
-        </label>
+          <label>
+            Image URL (optional):
+            <input
+              type="text"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://drive.google.com/..."
+            />
+          </label>
 
-        <label>
-          Status:
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-          >
-            <option value="lost">Lost</option>
-            <option value="found">Found</option>
-          </select>
-        </label>
+          <label>
+            Status:
+            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="lost">Lost</option>
+              <option value="found">Found</option>
+            </select>
+          </label>
 
-        {error && <p className="error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? 'Submitting...' : 'Report'}
+          </button>
+        </form>
 
-        <button type="submit" className="submit-button">Report Item</button>
-      </form>
+        {message && <p className="report-message">{message}</p>}
+      </div>
+      <Footer />
     </div>
   );
 };

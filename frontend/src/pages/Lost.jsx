@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../axiosConfig';
 import Itemcard from '../components/Itemcard';
+import { Navbar } from '../components/Navbar';
+import { Footer } from '../components/Footer';
 import './Lost.css';
 
 const Lost = () => {
@@ -13,13 +15,17 @@ const Lost = () => {
   }, []);
 
   return (
-    <div className="items-page">
-      <h2>Lost Items</h2>
-      <div className="items-grid">
-        {lostItems.map(item => (
-          <Itemcard key={item.id} item={item} />
-        ))}
+    <div className="lost-page-wrapper">
+      <Navbar />
+      <div className="items-page">
+        <h2>Lost Items</h2>
+        <div className="items-grid">
+          {lostItems.map(item => (
+            <Itemcard key={item.id} item={item} />
+          ))}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -12,7 +12,9 @@ export function Home() {
       <Navbar />
       <div className="home-container">
         <div className="home-left">
-          <h2>Find & Recover with Ease</h2>
+          <h2>
+            Find & <span className="highlight">Recover</span> with Ease
+          </h2>
           <p>Experience effortless Campus Life with our dedicated service.</p>
         </div>
         <div className="home-right">

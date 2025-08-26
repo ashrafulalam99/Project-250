@@ -1,17 +1,24 @@
-/* Profile page container */
-.profile-page {
+/* Wrapper ensures footer stays at bottom */
+.profile-page-wrapper {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  background: #f5f7fa; /* light grayish-blue background */
+}
+
+/* Main profile page content */
+.profile-page {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px;
+  background: #f5f7fa;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Profile card */
 .profile-card {
-  background: #bde191; /* white card */
+  background: #d1e8b5;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   padding: 30px 40px;
@@ -19,31 +26,7 @@
   max-width: 600px;
 }
 
-/* Profile name */
-.profile-card h2 {
-  margin-bottom: 10px;
-  font-size: 28px;
-  color: #000000;
-  text-align: center;
-}
-
-/* Profile details */
-.profile-card p {
-  margin: 8px 0;
-  font-size: 16px;
-  color: #4a4a4a;
-}
-
-/* Posts section */
-.profile-card h3 {
-  margin-top: 25px;
-  margin-bottom: 10px;
-  color: #404041;
-  font-size: 20px;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 5px;
-}
-
+/* Profile avatar */
 .profile-avatar {
   display: flex;
   justify-content: center;
@@ -53,10 +36,86 @@
 .profile-avatar img {
   width: 120px;
   height: 120px;
-  border-radius: 50%; /* makes it circular */
+  border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #3779c4; /* optional border */
+  border: 3px solid #3779c4;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Name */
+.profile-card h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  text-align: center;
+  color: #000;
+}
+
+/* Info text */
+.profile-card p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #4a4a4a;
+}
+
+/* Tabs */
+.profile-tabs {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0 50px 0;
+  gap: 200px;
+}
+
+.tab {
+  background-color: #e0e7ff;
+  color: #1e3a8a;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.tab:hover {
+  background-color: #c7d2fe;
+}
+
+.tab.active {
+  background-color: #bfdbfe;
+  color: #1e40af;
+}
+
+/* Profile actions */
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.update-button {
+  background-color: #0077ff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.update-button:hover {
+  background-color: #005bbb;
+}
+
+.logout-button {
+  background-color: #ff4d4f;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
 }
 
 /* Posts list */
@@ -84,52 +143,20 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Post status */
-.posts-list li span.status {
-  font-weight: 600;
-  color: #0077ff;
-}
-
-/* Profile actions (buttons) */
-.profile-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 25px;
-}
-
-.profile-actions button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-/* Update button */
-.update-button {
-  background-color: #0077ff;
-  color: #fff;
-}
-
-.update-button:hover {
-  background-color: #005bbb;
-}
-
-/* Logout button */
-.logout-button {
-  background-color: #ff4d4f;
-  color: #fff;
-}
-
-.logout-button:hover {
-  background-color: #c0392b;
-}
-
 /* Loading text */
 .loading-text {
   font-size: 18px;
   color: #666;
   text-align: center;
   margin-top: 50px;
+}
+
+/* Footer styling */
+footer {
+  margin-top: auto;
+  background: #f0f8ff;
+  padding: 15px 0;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
 }
