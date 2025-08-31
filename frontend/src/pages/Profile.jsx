@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../axiosConfig';
-import Itemcard from '../components/Itemcard';
 import profileImg from '../Assets/images/profile.png';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
+import OwnItemcard from '../components/OwnItemcard';
+import Itemcard from '../components/Itemcard';
+import Settings from './Settings';
 import './Profile.css';
 
 const Profile = () => {
@@ -13,9 +15,8 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [activeTab, setActiveTab] = useState('info'); // 'info' or 'posts'
-
-  const loggedInUserId = localStorage.getItem('userID');
   const token = localStorage.getItem('token');
+  const loggedInUserId = localStorage.getItem('userID');
 
   useEffect(() => {
     const own = String(id) === String(loggedInUserId);
@@ -30,7 +31,7 @@ const Profile = () => {
 
         let res;
         if (own) {
-          res = await api.get(`/users/me`, {
+          res = await api.get('/users/me', {
             headers: { Authorization: `Bearer ${token}` },
           });
         } else {
@@ -43,7 +44,6 @@ const Profile = () => {
       } catch (err) {
         console.error('Error fetching profile:', err);
         if (err.response?.status === 401) {
-          // Unauthorized, navigate to login
           localStorage.clear();
           navigate('/auth');
         } else {
@@ -61,6 +61,23 @@ const Profile = () => {
   };
 
   const handleUpdate = () => navigate('/settings');
+
+  const handleDeleteItem = async (itemId) => {
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+    try {
+      await api.delete(`/items/${itemId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Remove deleted item from state
+      setUser((prev) => ({
+        ...prev,
+        items: prev.items.filter((item) => item.id !== itemId),
+      }));
+    } catch (err) {
+      console.error('Error deleting item:', err);
+      alert(err.response?.data?.message || 'Failed to delete item');
+    }
+  };
 
   if (!user) return <p className="loading-text">Loading profile...</p>;
 
@@ -118,9 +135,13 @@ const Profile = () => {
             <div className="profile-posts">
               {user.items && user.items.length > 0 ? (
                 <div className="items-grid">
-                  {user.items.map(item => (
-                    <Itemcard key={item.id} item={item} />
-                  ))}
+                  {user.items.map((item) =>
+                    isOwnProfile ? (
+                      <OwnItemcard key={item.id} item={item} onDelete={handleDeleteItem} />
+                    ) : (
+                      <Itemcard key={item.id} item={item} />
+                    )
+                  )}
                 </div>
               ) : (
                 <p>No posts yet</p>
@@ -129,6 +150,7 @@ const Profile = () => {
           )}
         </div>
       </div>
+
       <Footer />
     </div>
   );

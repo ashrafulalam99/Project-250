@@ -8,7 +8,7 @@ import Lost from './pages/Lost';            // default export
 import Found from './pages/Found';          // default export
 import Report from './pages/Report';        // default export
 import Profile from './pages/Profile';      // default export
-import { Settings } from './pages/Settings'; // named export
+import Settings from './pages/Settings'; // named export
 import { About } from './pages/About';       // named export
 
 // Route protection
