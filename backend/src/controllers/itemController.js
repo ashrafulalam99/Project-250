@@ -63,3 +63,23 @@ export async function getItemById(req, res, next) {
     next(err);
   }
 }
+
+export async function deleteItem(req, res, next) {
+  try {
+    const itemId = req.params.id;
+
+    const item = await Item.findById(itemId);
+    if (!item) return res.status(404).json({ message: 'Item not found' });
+
+    // Only allow the owner to delete
+    if (String(item.user_id) !== String(req.user.id)) {
+      return res.status(403).json({ message: 'Not authorized to delete this item' });
+    }
+
+    await Item.deleteById(itemId);
+
+    res.json({ message: 'Item deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+}

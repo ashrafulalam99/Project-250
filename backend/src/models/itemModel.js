@@ -57,4 +57,22 @@ export class Item {
     );
     return rows[0];
   }
+
+  // Delete item by ID
+  static async deleteById(id) {
+    const [result] = await pool.query(
+      `DELETE FROM items WHERE id = ?`,
+      [id]
+    );
+    return result.affectedRows > 0; // returns true if deleted
+  }
+
+  // Optional: get all items for a specific user
+  static async getItemsByUser(user_id) {
+    const [rows] = await pool.query(
+      `SELECT * FROM items WHERE user_id = ? ORDER BY created_at DESC`,
+      [user_id]
+    );
+    return rows;
+  }
 }
