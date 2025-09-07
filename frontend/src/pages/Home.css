@@ -56,8 +56,10 @@ body, html {
   align-items: center;
 }
 
-/* Buttons */
-.lost-btn, .found-btn {
+/* Buttons base */
+.lost-btn,
+.found-btn,
+.marketplace-btn {
   padding: 25px 50px;
   font-size: 28px;
   font-weight: 700;
@@ -71,10 +73,10 @@ body, html {
   min-width: 180px;
 }
 
+/* Individual button colors */
 .lost-btn {
   background: linear-gradient(135deg, #991313, #FF1F1F);
 }
-
 .lost-btn:hover {
   transform: scale(1.1) translateY(-2px);
   box-shadow: 0 8px 22px rgba(255, 31, 31, 0.35);
@@ -83,10 +85,18 @@ body, html {
 .found-btn {
   background: linear-gradient(135deg, #00CB14, #00650A);
 }
-
 .found-btn:hover {
   transform: scale(1.1) translateY(-2px);
   box-shadow: 0 8px 22px rgba(0, 203, 20, 0.35);
+}
+
+/* Marketplace button color */
+.marketplace-btn {
+  background: linear-gradient(135deg, #0C8EB6, #1CB5E0);
+}
+.marketplace-btn:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 22px rgba(12, 142, 182, 0.35);
 }
 
 /* Responsive */
@@ -126,12 +136,12 @@ body, html {
     gap: 16px;
     justify-content: center;
   }
-  .lost-btn, .found-btn {
+  .lost-btn, .found-btn, .marketplace-btn {
     padding: 18px 32px;
     font-size: 20px;
     min-width: 140px;
   }
-  .lost-btn:hover, .found-btn:hover {
+  .lost-btn:hover, .found-btn:hover, .marketplace-btn:hover {
     transform: scale(1.08) translateY(-2px);
   }
 }
@@ -143,7 +153,7 @@ body, html {
   .home-left p {
     font-size: 14px;
   }
-  .lost-btn, .found-btn {
+  .lost-btn, .found-btn, .marketplace-btn {
     padding: 14px 24px;
     font-size: 18px;
     min-width: 120px;

@@ -104,98 +104,100 @@ const Settings = () => {
   };
 
   return (
-    <div className="settings-page-wrapper">
+    <>
       <Navbar />
-      <div className="settings-page">
-        <h2>Settings</h2>
+      <div className="settings-page-wrapper">
+        <div className="settings-page">
+          <h2>Settings</h2>
 
-        {/* Info update form */}
-        <div className="settings-section">
-          <h3>Update Information</h3>
-          <form onSubmit={handleInfoUpdate} className="info-form">
-            <label>
-              Name:
-              <input
-                type="text"
-                value={userInfo.name}
-                onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                type="email"
-                value={userInfo.email}
-                onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-              />
-            </label>
-            <label>
-              Contact:
-              <input
-                type="text"
-                value={userInfo.contact}
-                onChange={(e) => setUserInfo({ ...userInfo, contact: e.target.value })}
-              />
-            </label>
-            <label>
-              Location:
-              <input
-                type="text"
-                value={userInfo.location}
-                onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })}
-              />
-            </label>
-            <div className="update-button-wrapper">
-              <button type="submit" disabled={loadingInfo}>
-                {loadingInfo ? 'Updating...' : 'Update Info'}
-              </button>
-              {infoMessage && <span className="update-message">{infoMessage}</span>}
-            </div>
-          </form>
-        </div>
+          {/* Info update form */}
+          <div className="settings-section">
+            <h3>Update Information</h3>
+            <form onSubmit={handleInfoUpdate} className="info-form">
+              <label>
+                Name:
+                <input
+                  type="text"
+                  value={userInfo.name}
+                  onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+                />
+              </label>
+              <label>
+                Email:
+                <input
+                  type="email"
+                  value={userInfo.email}
+                  onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+                />
+              </label>
+              <label>
+                Contact:
+                <input
+                  type="text"
+                  value={userInfo.contact}
+                  onChange={(e) => setUserInfo({ ...userInfo, contact: e.target.value })}
+                />
+              </label>
+              <label>
+                Location:
+                <input
+                  type="text"
+                  value={userInfo.location}
+                  onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })}
+                />
+              </label>
+              <div className="update-button-wrapper">
+                <button type="submit" disabled={loadingInfo}>
+                  {loadingInfo ? 'Updating...' : 'Update Info'}
+                </button>
+                {infoMessage && <span className="update-message">{infoMessage}</span>}
+              </div>
+            </form>
+          </div>
 
-        {/* Password update form */}
-        <div className="settings-section">
-          <h3>Change Password</h3>
-          <form onSubmit={handlePasswordUpdate} className="password-form">
-            <label>
-              Old Password:
-              <input
-                type="password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                required
-              />
-            </label>
-            <label>
-              New Password:
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
-            </label>
-            <label>
-              Confirm New Password:
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-            </label>
-            <div className="update-button-wrapper">
-              <button type="submit" disabled={loadingPassword}>
-                {loadingPassword ? 'Updating...' : 'Update Password'}
-              </button>
-              {passwordMessage && <span className="update-message">{passwordMessage}</span>}
-            </div>
-          </form>
+          {/* Password update form */}
+          <div className="settings-section">
+            <h3>Change Password</h3>
+            <form onSubmit={handlePasswordUpdate} className="password-form">
+              <label>
+                Old Password:
+                <input
+                  type="password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                New Password:
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                Confirm New Password:
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </label>
+              <div className="update-button-wrapper">
+                <button type="submit" disabled={loadingPassword}>
+                  {loadingPassword ? 'Updating...' : 'Update Password'}
+                </button>
+                {passwordMessage && <span className="update-message">{passwordMessage}</span>}
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

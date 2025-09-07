@@ -2,14 +2,17 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
-import Auth from './pages/Auth';             // default export
-import { Home } from './pages/Home';        // named export
-import Lost from './pages/Lost';            // default export
-import Found from './pages/Found';          // default export
-import Report from './pages/Report';        // default export
-import Profile from './pages/Profile';      // default export
-import Settings from './pages/Settings'; // named export
-import { About } from './pages/About';       // named export
+// Pages
+import Auth from './pages/Auth';
+import Home from './pages/Home';
+import Lost from './pages/Lost';
+import Found from './pages/Found';
+import Report from './pages/Report';
+import Profile from './pages/Profile';
+import Settings from './pages/Settings'; 
+import About from './pages/About';
+import Marketplace from './pages/Marketplace';
+import CreateMarketItem from './pages/CreateMarketItem'; // named export
 
 // Route protection
 import PrivateRoute from './pages/PrivateRoute'; // default export
@@ -54,6 +57,24 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/marketplace"
+          element={
+            <PrivateRoute>
+              <Marketplace />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/marketplace/create"
+          element={
+            <PrivateRoute>
+              <CreateMarketItem />
+            </PrivateRoute>
+          }
+        />
+
         <Route
           path="/profile/:id"
           element={

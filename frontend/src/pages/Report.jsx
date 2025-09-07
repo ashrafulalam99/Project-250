@@ -5,8 +5,6 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import './Report.css';
 
-const fallbackImage = '/Assets/images/image.png'; // local fallback image
-
 const Report = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -14,7 +12,7 @@ const Report = () => {
   const [status, setStatus] = useState('lost');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // navigation hook
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +35,7 @@ const Report = () => {
           image_url: imageUrl || null,
           status
         },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setMessage('Report submitted successfully!');
@@ -48,10 +44,8 @@ const Report = () => {
       setImageUrl('');
       setStatus('lost');
 
-      // Navigate to home after 1 second
       setTimeout(() => navigate('/home'), 1000);
     } catch (err) {
-      console.error(err);
       setMessage(err.response?.data?.message || 'Failed to submit report.');
     } finally {
       setLoading(false);
@@ -61,7 +55,7 @@ const Report = () => {
   return (
     <div className="report-page-wrapper">
       <Navbar />
-      <div className="report-page">
+      <div className="report-container">
         <h2>Report Lost/Found Item</h2>
         <form className="report-form" onSubmit={handleSubmit}>
           <label>
@@ -105,7 +99,6 @@ const Report = () => {
             {loading ? 'Submitting...' : 'Report'}
           </button>
         </form>
-
         {message && <p className="report-message">{message}</p>}
       </div>
       <Footer />

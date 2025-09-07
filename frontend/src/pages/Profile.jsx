@@ -5,38 +5,33 @@ import profileImg from '../Assets/images/profile.png';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import OwnItemcard from '../components/OwnItemcard';
+import OwnMarketItemCard from '../components/OwnMarketItem';
 import Itemcard from '../components/Itemcard';
-import Settings from './Settings';
+import MarketItemCard from '../components/MarketItem';
 import './Profile.css';
 
 const Profile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [isOwnProfile, setIsOwnProfile] = useState(false);
-  const [activeTab, setActiveTab] = useState('info'); // 'info' or 'posts'
+  const [activeTab, setActiveTab] = useState('info'); // info | posts | marketplace
+  const [marketItems, setMarketItems] = useState([]);
   const token = localStorage.getItem('token');
   const loggedInUserId = localStorage.getItem('userID');
+  const isOwnProfile = String(id) === String(loggedInUserId);
 
+  // Fetch user info
   useEffect(() => {
-    const own = String(id) === String(loggedInUserId);
-    setIsOwnProfile(own);
-
     const fetchUser = async () => {
       try {
-        if (!token) {
+        if (isOwnProfile && !token) {
           navigate('/auth');
           return;
         }
 
-        let res;
-        if (own) {
-          res = await api.get('/users/me', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-        } else {
-          res = await api.get(`/users/public/${id}`);
-        }
+        const res = isOwnProfile
+          ? await api.get('/users/me', { headers: { Authorization: `Bearer ${token}` } })
+          : await api.get(`/users/public/${id}`);
 
         const userData = res.data.user || res.data;
         const items = res.data.items || [];
@@ -53,30 +48,61 @@ const Profile = () => {
     };
 
     fetchUser();
-  }, [id, loggedInUserId, token, navigate]);
+  }, [id, token, navigate, isOwnProfile]);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/auth');
-  };
+  // Fetch marketplace items
+  useEffect(() => {
+    const fetchMarketItems = async () => {
+      try {
+        let res;
+        if (isOwnProfile) {
+          res = await api.get('/marketplace/my', { headers: { Authorization: `Bearer ${token}` } });
+        } else {
+          res = await api.get(`/marketplace/user/${id}`);
+        }
+        setMarketItems(res.data);
+      } catch (err) {
+        console.error('Failed to fetch marketplace items', err);
+        setMarketItems([]);
+      }
+    };
 
-  const handleUpdate = () => navigate('/settings');
+    fetchMarketItems();
+  }, [id, token, isOwnProfile]);
 
   const handleDeleteItem = async (itemId) => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
     try {
-      await api.delete(`/items/${itemId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      // Remove deleted item from state
+      await api.delete(`/items/${itemId}`, { headers: { Authorization: `Bearer ${token}` } });
       setUser((prev) => ({
         ...prev,
         items: prev.items.filter((item) => item.id !== itemId),
       }));
     } catch (err) {
-      console.error('Error deleting item:', err);
+      console.error(err);
       alert(err.response?.data?.message || 'Failed to delete item');
     }
+  };
+
+  const handleDeleteMarketItem = async (itemId) => {
+    if (!window.confirm('Are you sure you want to delete this market item?')) return;
+    try {
+      await api.delete(`/marketplace/${itemId}`, { headers: { Authorization: `Bearer ${token}` } });
+      setMarketItems((prev) => prev.filter((item) => item.id !== itemId));
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || 'Failed to delete market item');
+    }
+  };
+
+  // NEW: handlers for update and logout
+  const handleUpdateProfile = () => {
+    navigate('/settings'); // go to settings
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/auth');
   };
 
   if (!user) return <p className="loading-text">Loading profile...</p>;
@@ -93,6 +119,18 @@ const Profile = () => {
 
           <h2>{user.name || 'No Name'}</h2>
 
+          {/* Added buttons here */}
+          {isOwnProfile && (
+            <div className="profile-actions">
+              <button onClick={handleUpdateProfile} className="profile-action-button">
+                Update Profile
+              </button>
+              <button onClick={handleLogout} className="profile-action-button logout">
+                Logout
+              </button>
+            </div>
+          )}
+
           {/* Tabs */}
           <div className="profile-tabs">
             <button
@@ -107,27 +145,20 @@ const Profile = () => {
             >
               Posts
             </button>
+            <button
+              className={activeTab === 'marketplace' ? 'tab active' : 'tab'}
+              onClick={() => setActiveTab('marketplace')}
+            >
+              Marketplace
+            </button>
           </div>
 
           {/* Tab content */}
           {activeTab === 'info' && (
             <div className="profile-info">
-              {isOwnProfile ? (
-                <>
-                  <p><strong>Email:</strong> {user.email || 'N/A'}</p>
-                  <p><strong>Contact:</strong> {user.contact || 'N/A'}</p>
-                  <p><strong>Location:</strong> {user.location || 'N/A'}</p>
-                  <div className="profile-actions">
-                    <button className="update-button" onClick={handleUpdate}>Update Info</button>
-                    <button className="logout-button" onClick={handleLogout}>Logout</button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <p><strong>Contact:</strong> {user.contact || 'N/A'}</p>
-                  <p><strong>Location:</strong> {user.location || 'N/A'}</p>
-                </>
-              )}
+              <p><strong>Email:</strong> {user.email || 'N/A'}</p>
+              <p><strong>Contact:</strong> {user.contact || 'N/A'}</p>
+              <p><strong>Location:</strong> {user.location || 'N/A'}</p>
             </div>
           )}
 
@@ -145,6 +176,24 @@ const Profile = () => {
                 </div>
               ) : (
                 <p>No posts yet</p>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'marketplace' && (
+            <div className="profile-marketplace">
+              {marketItems.length > 0 ? (
+                <div className="items-grid">
+                  {marketItems.map((item) =>
+                    isOwnProfile ? (
+                      <OwnMarketItemCard key={item.id} item={item} onDelete={handleDeleteMarketItem} />
+                    ) : (
+                      <MarketItemCard key={item.id} item={item} />
+                    )
+                  )}
+                </div>
+              ) : (
+                <p>No marketplace items yet.</p>
               )}
             </div>
           )}

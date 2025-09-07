@@ -4,7 +4,7 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import './Home.css';
 
-export function Home() {
+export default function Home() {
   const navigate = useNavigate();
 
   return (
@@ -18,8 +18,18 @@ export function Home() {
           <p>Experience effortless Campus Life with our dedicated service.</p>
         </div>
         <div className="home-right">
-          <button className="lost-btn" onClick={() => navigate('/lost')}>Lost</button>
-          <button className="found-btn" onClick={() => navigate('/found')}>Found</button>
+          <button className="lost-btn" onClick={() => navigate('/lost')}>
+            Lost
+          </button>
+          <button className="found-btn" onClick={() => navigate('/found')}>
+            Found
+          </button>
+          <button
+            className="marketplace-btn"
+            onClick={() => navigate('/marketplace')}
+          >
+            Marketplace
+          </button>
         </div>
       </div>
       <Footer />
