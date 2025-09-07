@@ -1,9 +1,9 @@
-// src/controllers/marketController.js
 import { MarketModel } from '../models/marketModel.js';
 
+// Create a new marketplace item
 export async function createMarketItem(req, res, next) {
   try {
-    const { title, description, type, price } = req.body;
+    const { title, description, type, price, image_url } = req.body;
 
     if (!title || !type) {
       return res.status(400).json({ message: 'Title and type are required' });
@@ -14,7 +14,8 @@ export async function createMarketItem(req, res, next) {
       title,
       description,
       type,
-      price
+      price,
+      image_url // <- include optional image URL
     });
 
     res.status(201).json({ message: 'Marketplace item created', item: newItem });
@@ -23,6 +24,7 @@ export async function createMarketItem(req, res, next) {
   }
 }
 
+// Get all marketplace items, optionally filtered by type
 export async function getAllMarketItems(req, res, next) {
   try {
     const { type } = req.query;
@@ -33,6 +35,7 @@ export async function getAllMarketItems(req, res, next) {
   }
 }
 
+// Get a single marketplace item by ID
 export async function getMarketItemById(req, res, next) {
   try {
     const item = await MarketModel.findById(req.params.id);
@@ -43,6 +46,7 @@ export async function getMarketItemById(req, res, next) {
   }
 }
 
+// Get logged-in user’s marketplace items
 export async function getMyMarketItems(req, res, next) {
   try {
     const items = await MarketModel.getItemsByUser(req.user.id);
@@ -52,6 +56,7 @@ export async function getMyMarketItems(req, res, next) {
   }
 }
 
+// Get any user’s marketplace items by userId param
 export async function getUserMarketItems(req, res, next) {
   try {
     const items = await MarketModel.getItemsByUser(req.params.userId);
@@ -61,6 +66,7 @@ export async function getUserMarketItems(req, res, next) {
   }
 }
 
+// Delete a marketplace item (owner only)
 export async function deleteMarketItem(req, res, next) {
   try {
     const item = await MarketModel.findById(req.params.id);
