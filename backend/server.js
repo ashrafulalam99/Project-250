@@ -9,6 +9,7 @@ import { errorHandler, notFound, authMiddleware } from './src/core/middleware.js
 import authRoutes from './src/routes/authRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
 import itemRoutes from './src/routes/itemRoutes.js';
+import marketRoutes from './src/routes/marketRoutes.js'; // <-- new import
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use(authMiddleware);
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/marketplace', marketRoutes); // <-- add marketplace routes
 
 // Health check
 app.get('/health', (req, res) => {
