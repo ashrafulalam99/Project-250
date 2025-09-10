@@ -1,5 +1,5 @@
-// src/controllers/itemController.js
 import { Item } from '../models/itemModel.js';
+import { NotificationModel } from '../models/notificationModel.js';
 
 // Create a new lost/found item
 export async function createItem(req, res, next) {
@@ -11,21 +11,27 @@ export async function createItem(req, res, next) {
     }
 
     function convertDriveLink(url) {
-        if (!url) return null;
-        const match = url.match(/\/d\/(.*?)\//);
-        if (match && match[1]) {
+      if (!url) return null;
+      const match = url.match(/\/d\/(.*?)\//);
+      if (match && match[1]) {
         return `https://drive.google.com/uc?export=view&id=${match[1]}`;
       }
       return url;
     }
 
+    // Create the item
     const newItem = await Item.create({
-    user_id: req.user.id,
-    name,
-    description,
-    image_url: convertDriveLink(image_url),
-    status
-  });
+      user_id: req.user.id,
+      name,
+      description,
+      image_url: convertDriveLink(image_url),
+      status
+    });
+
+    // Create notifications for all other users
+    const type = status === 'lost' ? 'lost_item' : 'found_item';
+    const message = `A new ${status} item was added: ${name}`;
+    await NotificationModel.createForAllExcept(req.user.id, newItem.id, type, message);
 
     res.status(201).json({ message: 'Item reported', item: newItem });
   } catch (err) {
@@ -33,17 +39,17 @@ export async function createItem(req, res, next) {
   }
 }
 
-// Get all items (search, filter, pagination, sorting)
+// Get all items (with optional search/filter/pagination)
 export async function getItems(req, res, next) {
   try {
-    const { name, status, limit, offset, sort } = req.query;
+    const { search, status, limit, offset, sort } = req.query;
 
     const items = await Item.getAll({
-      name,
+      name: search,   // map 'search' query param to 'name' in model
       status,
       limit,
       offset,
-      sort: sort === 'ASC' ? 'ASC' : 'DESC' // default DESC
+      sort: sort === 'ASC' ? 'ASC' : 'DESC'
     });
 
     res.json(items);
@@ -57,13 +63,13 @@ export async function getItemById(req, res, next) {
   try {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: 'Item not found' });
-
     res.json(item);
   } catch (err) {
     next(err);
   }
 }
 
+// Delete an item (owner only)
 export async function deleteItem(req, res, next) {
   try {
     const itemId = req.params.id;
@@ -71,7 +77,6 @@ export async function deleteItem(req, res, next) {
     const item = await Item.findById(itemId);
     if (!item) return res.status(404).json({ message: 'Item not found' });
 
-    // Only allow the owner to delete
     if (String(item.user_id) !== String(req.user.id)) {
       return res.status(403).json({ message: 'Not authorized to delete this item' });
     }

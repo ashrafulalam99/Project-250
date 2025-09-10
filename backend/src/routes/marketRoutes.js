@@ -4,11 +4,10 @@ import { createMarketItem, getAllMarketItems, getMarketItemById, getMyMarketItem
 const router = express.Router();
 
 router.post('/', createMarketItem);
-router.delete('/:id', deleteMarketItem);
-
-router.get('/', getAllMarketItems);          
-router.get('/my', getMyMarketItems);        
+router.get('/', getAllMarketItems);
+router.get('/my', getMyMarketItems);
 router.get('/user/:userId', getUserMarketItems);
-router.get('/:id', getMarketItemById);     
+router.get('/:id', getMarketItemById);
+router.delete('/:id', deleteMarketItem);
 
 export default router;

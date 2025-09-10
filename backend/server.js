@@ -10,6 +10,8 @@ import authRoutes from './src/routes/authRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
 import itemRoutes from './src/routes/itemRoutes.js';
 import marketRoutes from './src/routes/marketRoutes.js'; // <-- new import
+import notificationRoutes from './src/routes/notificationRoutes.js';
+
 
 const app = express();
 
@@ -25,7 +27,9 @@ app.use('/api/auth', authRoutes);
 app.use(authMiddleware);
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/marketplace', marketRoutes); // <-- add marketplace routes
+app.use('/api/marketplace', marketRoutes); 
+app.use('/api/notifications', notificationRoutes);
+
 
 // Health check
 app.get('/health', (req, res) => {

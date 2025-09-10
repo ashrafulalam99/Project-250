@@ -26,8 +26,9 @@ export class Item {
     const params = [];
 
     if (name) {
-      conditions.push('i.name LIKE ?');
-      params.push(`%${name}%`);
+      // Case-insensitive search
+      conditions.push('LOWER(i.name) LIKE ?');
+      params.push(`%${name.toLowerCase()}%`);
     }
 
     if (status) {

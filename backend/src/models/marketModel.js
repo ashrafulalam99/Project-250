@@ -25,16 +25,28 @@ export class MarketModel {
     };
   }
 
-  // Get all marketplace items, optionally filtered by type
-  static async getAll({ type } = {}) {
+  // Get all marketplace items, optionally filtered by type and search term (case-insensitive)
+  static async getAll({ type, search } = {}) {
     let sql = `SELECT m.*, u.name AS user_name, u.email AS user_email
                FROM marketplace_items m
                JOIN users u ON m.user_id = u.id`;
+    const conditions = [];
     const params = [];
 
+    // Case-insensitive search by title
+    if (search) {
+      conditions.push('LOWER(m.title) LIKE ?');
+      params.push(`%${search.toLowerCase()}%`);
+    }
+
+    // Filter by type if provided
     if (type && ['buy', 'sell'].includes(type)) {
-      sql += ' WHERE m.type = ?';
+      conditions.push('m.type = ?');
       params.push(type);
+    }
+
+    if (conditions.length > 0) {
+      sql += ' WHERE ' + conditions.join(' AND ');
     }
 
     sql += ' ORDER BY m.created_at DESC';
