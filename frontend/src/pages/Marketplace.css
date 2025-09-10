@@ -7,6 +7,7 @@
 .marketplace-title {
   font-size: 32px;
   font-weight: 700;
+  margin-top: 10px;
   margin-bottom: 20px;
   color: #0c8eb6;
   text-align: center;
@@ -15,23 +16,23 @@
 .marketplace-filters {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 50px;
   margin-bottom: 30px;
 }
 
 .filter-btn {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: 1px solid #0c8eb6;
   border-radius: 6px;
   background: #fff;
   color: #0c8eb6;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .filter-btn:hover {
-  background: #0c8eb6;
+  background: #85d3eb;
   color: #fff;
 }
 

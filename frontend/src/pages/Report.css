@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #f0f4f8; /* smooth eye-friendly background */
+  background:  linear-gradient(135deg, #C0ECEC, #E8F6F6); /* smooth eye-friendly background */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 

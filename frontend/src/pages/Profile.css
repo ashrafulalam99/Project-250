@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: linear-gradient(135deg, #C0ECEC, #E8F6F6);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -18,7 +18,7 @@
 
 /* Profile card */
 .profile-card {
-  background: #ffffff;
+  background: #c0d4f8;
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   padding: 30px 40px;
@@ -59,7 +59,7 @@
 }
 
 .profile-action-button {
-  background-color: #0077ff;
+  background-color: #4290e8;
   color: #fff;
   padding: 8px 18px;
   border-radius: 8px;
@@ -71,11 +71,11 @@
 }
 
 .profile-action-button:hover {
-  background-color: #005bbb;
+  background-color: #0051bb;
 }
 
 .profile-action-button.logout {
-  background-color: #ff4d4f;
+  background-color: #e6474a;
 }
 
 .profile-action-button.logout:hover {
@@ -103,12 +103,12 @@
 }
 
 .tab:hover {
-  background-color: #c7d2fe;
+  background-color: #7893de;
 }
 
 .tab.active {
   background-color: #bfdbfe;
-  color: #1e40af;
+  color: #2d1aa9;
 }
 
 /* Info section */

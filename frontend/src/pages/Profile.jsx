@@ -97,7 +97,7 @@ const Profile = () => {
 
   // NEW: handlers for update and logout
   const handleUpdateProfile = () => {
-    navigate('/settings'); // go to settings
+    navigate('/profileupdate');
   };
 
   const handleLogout = () => {

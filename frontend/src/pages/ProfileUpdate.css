@@ -1,0 +1,142 @@
+/* ProfileUpdate.css - clean, responsive, footer pinned */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: system-ui, "Segoe UI", sans-serif;
+  background-color: linear-gradient(135deg, #C0ECEC, #E8F6F6);
+  color: #111827;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content area grows to fill space */
+.content-wrap {
+  flex: 1;
+}
+
+/* Navbar stays at top, footer at bottom */
+footer {
+  margin-top: auto;
+}
+
+/* ProfileUpdate page styles */
+.profileupdate-page-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+  background-color: linear-gradient(135deg, #C0ECEC, #E8F6F6);
+}
+
+.profileupdate-page {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.profileupdate-page h2 {
+  margin-bottom: 16px;
+  color:#9f4040;
+  font-size: 1.75rem;
+  text-align: center;
+}
+
+.profileupdate-section {
+  margin-top: 24px;
+}
+
+.profileupdate-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: #6b7280;
+}
+
+/* Forms */
+.info-form,
+.password-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+}
+
+.profileupdate-section label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.profileupdate-section input[type="text"],
+.profileupdate-section input[type="email"],
+.profileupdate-section input[type="password"] {
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profileupdate-section input:focus {
+  border-color: #4f46e5;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+/* Buttons */
+.update-button-wrapper {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.update-button-wrapper button {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.update-button-wrapper button:hover:not(:disabled) {
+  background: #06b6d4;
+}
+
+.update-button-wrapper button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Messages */
+.update-message {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.update-message.success {
+  color: #16a34a;
+}
+
+.update-message.error {
+  color: #ef4444;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .info-form,
+  .password-form {
+    grid-template-columns: 1fr;
+  }
+}

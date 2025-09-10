@@ -7,24 +7,54 @@ import './Found.css';
 
 const Found = () => {
   const [foundItems, setFoundItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // ✅ search term
 
-  useEffect(() => {
-    api.get('/items?status=found')
+  const fetchItems = () => {
+    const query = searchTerm
+      ? `/items?status=found&search=${encodeURIComponent(searchTerm)}`
+      : '/items?status=found';
+
+    api.get(query)
       .then(res => setFoundItems(res.data))
       .catch(err => console.error(err));
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, [searchTerm]); // ✅ refetch when searchTerm changes
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') fetchItems(); // optional: Enter key triggers search
+  };
 
   return (
     <div className="found-page-wrapper">
       <Navbar />
+
       <div className="items-page">
         <h2>Found Items</h2>
+
+        {/* Search input */}
+        <div className="search-bar" style={{ margin: '15px 0' }}>
+          <input
+            type="text"
+            placeholder="Search found items..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className="search-input"
+          />
+        </div>
+
         <div className="items-grid">
-          {foundItems.map(item => (
-            <Itemcard key={item.id} item={item} />
-          ))}
+          {foundItems.length > 0 ? (
+            foundItems.map(item => <Itemcard key={item.id} item={item} />)
+          ) : (
+            <p>No items found.</p>
+          )}
         </div>
       </div>
+
       <Footer />
     </div>
   );
