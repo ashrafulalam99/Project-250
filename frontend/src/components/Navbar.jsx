@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../Assets/icons/logo.jpg';
 import api from '../axiosConfig';
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   const userID = localStorage.getItem('userID');
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    // fetch unread notifications count
     const fetchUnreadCount = async () => {
       try {
         const res = await api.get('/notifications');
@@ -21,14 +21,17 @@ export const Navbar = () => {
     };
 
     fetchUnreadCount();
-    // refresh every 60 seconds
     const interval = setInterval(fetchUnreadCount, 60000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <nav className="navbar">
-      <div className="logo-container">
+      <div
+        className="logo-container"
+        style={{ cursor: 'pointer' }}
+        onClick={() => navigate('/home')}
+      >
         <img src={logo} alt="CampusHub Logo" className="logo" />
         <span className="logo-text">CampusHub</span>
       </div>
@@ -49,13 +52,7 @@ export const Navbar = () => {
             Report Lost/Found
           </NavLink>
         </li>
-        <li>
-          <NavLink to="/home" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Home
-          </NavLink>
-        </li>
 
-        {/* 🔔 Notifications link with badge */}
         <li className="notification-link">
           <NavLink to="/notifications" className={({ isActive }) => (isActive ? 'active' : '')}>
             Notifications{' '}

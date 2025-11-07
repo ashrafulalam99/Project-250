@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../axiosConfig';
+import { Navbar } from '../components/Navbar.jsx';
+import { Footer } from '../components/Footer.jsx';
 import './Notification.css';
 
 const Notification = () => {
@@ -44,31 +46,42 @@ const Notification = () => {
     }
   };
 
-  return (
-    <div className="notification-page">
-      <h2>Notifications ({unreadCount} unread)</h2>
-      {notifications.length === 0 ? (
-        <p>No notifications.</p>
-      ) : (
-        <ul className="notification-list">
-          {notifications.map((n) => (
-            <li
-              key={n.id}
-              className={`notification-item ${n.read_status ? 'read' : 'unread'}`}
-              onClick={() => handleClick(n)}
-            >
-              <div className="notification-message">
-                <strong>{n.actor_name}</strong>: {n.message}
-              </div>
-              {!n.read_status && (
-                <button onClick={(e) => { e.stopPropagation(); markAsRead(n.id); }}>
-                  Mark as read
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+ return (
+    <div className="notification-page-container">
+      <Navbar/>
+
+      <main className="notification-page">
+        <h2>Notifications ({unreadCount} unread)</h2>
+        {notifications.length === 0 ? (
+          <p>No notifications.</p>
+        ) : (
+          <ul className="notification-list">
+            {notifications.map((n) => (
+              <li
+                key={n.id}
+                className={`notification-item ${n.read_status ? 'read' : 'unread'}`}
+                onClick={() => handleClick(n)}
+              >
+                <div className="notification-message">
+                  <strong>{n.actor_name}</strong>: {n.message}
+                </div>
+                {!n.read_status && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      markAsRead(n.id);
+                    }}
+                  >
+                    Mark as read
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </main>
+
+      <Footer />
     </div>
   );
 };

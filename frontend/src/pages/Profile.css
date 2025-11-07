@@ -1,4 +1,4 @@
-/* Wrapper keeps footer at bottom */
+
 .profile-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -7,7 +7,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Main profile content centers everything */
 .profile-page {
   flex: 1;
   display: flex;
@@ -16,7 +15,6 @@
   padding: 40px 20px;
 }
 
-/* Profile card */
 .profile-card {
   background: #c0d4f8;
   border-radius: 12px;
@@ -26,7 +24,6 @@
   max-width: 850px;
 }
 
-/* Avatar */
 .profile-avatar {
   display: flex;
   justify-content: center;
@@ -42,7 +39,6 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Name */
 .profile-card h2 {
   text-align: center;
   font-size: 28px;
@@ -50,7 +46,6 @@
   color: #1e3a8a;
 }
 
-/* Buttons under name */
 .profile-actions {
   display: flex;
   justify-content: center;
@@ -82,7 +77,6 @@
   background-color: #c0392b;
 }
 
-/* Tabs */
 .profile-tabs {
   display: flex;
   justify-content: center;
@@ -111,7 +105,6 @@
   color: #2d1aa9;
 }
 
-/* Info section */
 .profile-info {
   text-align: center;
 }
@@ -122,14 +115,12 @@
   color: #444;
 }
 
-/* Posts & marketplace grid */
 .items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
 
-/* Empty message text */
 .profile-posts p,
 .profile-marketplace p {
   text-align: center;
@@ -137,7 +128,6 @@
   font-size: 16px;
 }
 
-/* Loading text */
 .loading-text {
   font-size: 18px;
   color: #666;
@@ -145,7 +135,6 @@
   margin-top: 50px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .profile-card {
     padding: 20px;

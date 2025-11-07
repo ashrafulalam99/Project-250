@@ -1,9 +1,15 @@
 /* src/pages/Notification.css */
 
+.notification-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .notification-page {
-  padding: 20px;
+  flex: 1;
+  padding: 2rem;
   max-width: 800px;
-  
   margin: 0 auto;
 }
 
@@ -23,7 +29,7 @@
 }
 
 .notification-item.unread {
-  background-color: #d9edf7; /* light blue for unread */
+  background-color: #d9edf7;
   font-weight: bold;
 }
 

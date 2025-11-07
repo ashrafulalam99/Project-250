@@ -14,13 +14,12 @@ const Profile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('info'); // info | posts | marketplace
+  const [activeTab, setActiveTab] = useState('info'); // info | report | marketplace
   const [marketItems, setMarketItems] = useState([]);
   const token = localStorage.getItem('token');
   const loggedInUserId = localStorage.getItem('userID');
   const isOwnProfile = String(id) === String(loggedInUserId);
 
-  // Fetch user info
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -50,7 +49,6 @@ const Profile = () => {
     fetchUser();
   }, [id, token, navigate, isOwnProfile]);
 
-  // Fetch marketplace items
   useEffect(() => {
     const fetchMarketItems = async () => {
       try {
@@ -95,7 +93,6 @@ const Profile = () => {
     }
   };
 
-  // NEW: handlers for update and logout
   const handleUpdateProfile = () => {
     navigate('/profileupdate');
   };
@@ -119,7 +116,6 @@ const Profile = () => {
 
           <h2>{user.name || 'No Name'}</h2>
 
-          {/* Added buttons here */}
           {isOwnProfile && (
             <div className="profile-actions">
               <button onClick={handleUpdateProfile} className="profile-action-button">
@@ -131,7 +127,6 @@ const Profile = () => {
             </div>
           )}
 
-          {/* Tabs */}
           <div className="profile-tabs">
             <button
               className={activeTab === 'info' ? 'tab active' : 'tab'}
@@ -140,10 +135,10 @@ const Profile = () => {
               Information
             </button>
             <button
-              className={activeTab === 'posts' ? 'tab active' : 'tab'}
-              onClick={() => setActiveTab('posts')}
+              className={activeTab === 'report' ? 'tab active' : 'tab'}
+              onClick={() => setActiveTab('report')}
             >
-              Posts
+              Report
             </button>
             <button
               className={activeTab === 'marketplace' ? 'tab active' : 'tab'}
@@ -153,7 +148,6 @@ const Profile = () => {
             </button>
           </div>
 
-          {/* Tab content */}
           {activeTab === 'info' && (
             <div className="profile-info">
               <p><strong>Email:</strong> {user.email || 'N/A'}</p>
@@ -162,8 +156,8 @@ const Profile = () => {
             </div>
           )}
 
-          {activeTab === 'posts' && (
-            <div className="profile-posts">
+          {activeTab === 'report' && (
+            <div className="profile-tabs">
               {user.items && user.items.length > 0 ? (
                 <div className="items-grid">
                   {user.items.map((item) =>
@@ -175,7 +169,7 @@ const Profile = () => {
                   )}
                 </div>
               ) : (
-                <p>No posts yet</p>
+                <p>No report yet</p>
               )}
             </div>
           )}
