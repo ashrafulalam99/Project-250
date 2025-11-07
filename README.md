@@ -1,2 +1,2 @@
 # Project-250
-Campus centric web application for lost & found, buy & sell as part of Project 250 - developed using JavaScript, Node.js, and MySQL
+Developed a campus-centric web application for lost & found and buy & sell services as part of Project-250, using JavaScript, Node.js, and MySQL.
